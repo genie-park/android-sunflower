@@ -1,4 +1,4 @@
-version: 2
+version: 2.1
 description: This is an inline job
 
 orbs:
