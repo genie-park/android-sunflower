@@ -1,4 +1,5 @@
 version: 2.1
+
 description: This is an inline job
 
 orbs:
@@ -33,9 +34,8 @@ orbs:
 workflows:
   build-test-deploy:
     jobs:
-      build:
-        - inline_example/my_inline_job:
+      - inline_example/my_inline_job:
           name: mybuild # best practice is to name each orb job
-        - inline_example/my_inline_job:
+      - inline_example/my_inline_job:
           name: mybuild2
           greeting_name: world
