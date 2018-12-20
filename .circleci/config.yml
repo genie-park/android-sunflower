@@ -1,34 +1,41 @@
 version: 2
+description: This is an inline job
 
-references:
-  cache_key: &cache_key
-    key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+orbs:
+  inline_example:
+    jobs:
+      my_inline_job:
+        parameters:
+          greeting_name:
+            description: # a helpful description
+            type: string
+            default: olleh
+        executor: my_inline_executor
+        steps:
+          - my_inline_command:
+              name: <<parameters.greeting_name>>
+    commands:
+      my_inline_command:
+        parameters:
+          greeting_name:
+            type: string
+        steps:
+          - run: echo "hello <<parameters.greeting_name>>, from the inline command"
+    executors:
+      my_inline_executor:
+        parameters:
+          version:
+            type: string
+            default: "2.4"
+        docker:
+          - image: circleci/ruby:<<parameters.version>>
 
-jobs:
-  build:
-    docker:
-      - image: circleci/android:api-28-alpha
-    environment:
-      JAVA_TOOL_OPTIONS: "-Xmx1024m"
-      GRADLE_OPTS: "-Dorg.gradle.daemon=false -Dorg.gradle.workers.max=2"
-      TERM: dumb
-    steps:
-      - checkout
-      - restore_cache:
-          <<: *cache_key
-      - run:
-          name: Download Dependencies
-          command: ./gradlew dependencies
-      - save_cache:
-          <<: *cache_key
-          paths:
-            - ~/.gradle/caches
-            - ~/.gradle/wrapper
-      - run:
-          name: Run JVM Tests & Lint
-          command: ./gradlew check
-      - store_artifacts:
-          path: app/build/reports
-          destination: reports
-      - store_test_results:
-          path: app/build/test-results
+workflows:
+  build-test-deploy:
+    jobs:
+      build:
+        - inline_example/my_inline_job:
+          name: mybuild # best practice is to name each orb job
+        - inline_example/my_inline_job:
+          name: mybuild2
+          greeting_name: world
