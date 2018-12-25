@@ -1,4 +1,8 @@
 version: 2
+references:
+  cache_key: &cache_key
+    key: jars-{{ checksum "build.gradle" }}-{{ checksum  "app/build.gradle" }}-{{ checksum "gradle/wrapper/gradle-wrapper.properties" }}
+
 jobs:
   build:
     docker:
@@ -10,6 +14,16 @@ jobs:
       TERM: dumb
     steps:
     - checkout
+    - restore_cache:
+        <<: *cache_key
+        <<: *cache_key
+    - run: 
+       command: ./gradlew dependencies
+    - save_cache:
+        <<: *cache_key
+        paths:
+          - ~/.gradle/caches
+          - ~/.gradle/wrapper
     - run:
        command: ./gradlew assembledebug
     - run:
@@ -18,10 +32,59 @@ jobs:
         access_key: d0b20cd289994be0e423e2c42f4c09fe
         project_id: 793
         waiting_for_test_results: 'true'
+
        command: |
         serviceHost=https://api.apptest.ai
         apk_file_d='apk_file=@'\"${binary_path}\"
         data_d='data={"pid":'${project_id}',"test_set_name":"circleci_test"}'
         testRunUrl=${serviceHost}/test_set/queuing?access_key=${access_key}
-        du  
+        HTTP_RESPONSE=$(curl --silent --write-out "HTTPSTATUS:%{http_code}" -X POST -F $apk_file_d -F $data_d ${testRunUrl})
 
+        HTTP_BODY=$(echo ${HTTP_RESPONSE} | sed -e 's/HTTPSTATUS\:.*//g')
+        HTTP_STATUS=$(echo ${HTTP_RESPONSE} | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
+        if [ ! ${HTTP_STATUS} -eq 200  ]; then
+          echo "Error [HTTP status: ${HTTP_STATUS}]"
+          exit
+        fi
+        
+        create_test_result=$(echo $HTTP_BODY | jq -r .result)
+        if [ $create_test_result == 'fail' ]; then
+          echo "apptest.ai Test Run Fail : $(echo $HTTP_BODY | jq -r .reason)"
+          exit
+        fi
+
+        TEST_RUN_RESULT='false'
+        tsid=$(echo $HTTP_BODY | jq -r .data.tsid)
+        echo 'Your test request is accepted - Test Run id : '$tsid
+
+        testCompleteCheckUrl=${serviceHost}/test_set/${tsid}/ci_info?access_key=${access_key}
+
+        while [ ! "$TEST_RUN_RESULT" == "true" ] && [ "$waiting_for_test_results" == "true" ]; do
+          HTTP_RESPONSE=$(curl --silent --write-out "HTTPSTATUS:%{http_code}" ${testCompleteCheckUrl})
+          HTTP_BODY=$(echo ${HTTP_RESPONSE} | sed -e 's/HTTPSTATUS\:.*//g')
+          HTTP_STATUS=$(echo ${HTTP_RESPONSE} | tr -d '\n' | sed -e 's/.*HTTPSTATUS://')
+          if [ ! ${HTTP_STATUS} -eq 200  ]; then
+            echo "Error [HTTP status: ${HTTP_STATUS}]"
+            exit
+          fi
+          TEST_RUN_RESULT=$(echo $HTTP_BODY | jq -r .complete)
+          if [ "$TEST_RUN_RESULT" == "true" ]; then
+            RESULT_DATA=$(echo $HTTP_BODY | jq -r .data)
+            break
+          fi
+          echo "Waiting for Test Run(${tsid}) completed"
+          sleep 20s
+        done
+        
+        if [ "$waiting_for_test_results" == "true" ]; then
+          echo '========================================='
+          echo $(echo $RESULT_DATA | jq -r .result_json)
+          TMP_DIR=$(mktemp -d)
+          touch ${TMP_DIR}/apptest_results.json
+          echo $(echo $RESULT_DATA | jq -r .result_json > ${TMP_DIR}/apptest_results.json)          
+          echo 'Test completed'
+        fi
+        
+    - store_artifacts:
+        path: app/build/outputs/apk/debug/
+        destination: reports
