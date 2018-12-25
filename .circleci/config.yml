@@ -11,7 +11,7 @@ jobs:
     steps:
     - checkout
     - run:
-       command: ./gradlew :assemble
+       command: ./gradlew assembledebug
     - run:
        environment: 
         binary_path: ./app/build/outputs/apk/debug/app-debug.apk
