@@ -23,11 +23,10 @@ jobs:
         apk_file_d='apk_file=@'\"${binary_path}\"
         data_d='data={"pid":'${project_id}',"test_set_name":"circleci_test"}'
         testRunUrl=${serviceHost}/test_set/queuing?access_key=${access_key}
-        ls -al
-        ls ./app
-        ls ./app/build
-        ls ./app/build/outputs/
-        ls ./app/build/outputs/apk
-        ls ./app/build/outputs/apk/debug
+        ls -al ./app/build
+        ls -al ./app/build/generated
+        ls -al ./app/build/tmp
+        ls -al ./app/build/generated/debug/
+        ls -al ./app/build/tmp/debug
         curl --write-out "HTTPSTATUS:%{http_code}" -X POST -F $apk_file_d -F $data_d ${testRunUrl}
 
