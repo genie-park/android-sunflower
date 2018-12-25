@@ -18,11 +18,16 @@ jobs:
         access_key: d0b20cd289994be0e423e2c42f4c09fe
         project_id: 793
         waiting_for_test_results: 'true'
-
        command: |
         serviceHost=https://api.apptest.ai
         apk_file_d='apk_file=@'\"${binary_path}\"
         data_d='data={"pid":'${project_id}',"test_set_name":"circleci_test"}'
         testRunUrl=${serviceHost}/test_set/queuing?access_key=${access_key}
+        ls -al
+        ls ./app
+        ls ./app/build
+        ls ./app/build/outputs/
+        ls ./app/build/outputs/apk
+        ls ./app/build/outputs/apk/debug
         curl --write-out "HTTPSTATUS:%{http_code}" -X POST -F $apk_file_d -F $data_d ${testRunUrl}
 
