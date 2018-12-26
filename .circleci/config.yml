@@ -7,6 +7,8 @@ orbs:
   apptest-ai:
     jobs:
       test:
+        docker:
+        - image: circleci/python:3.7.1
         parameters:
           binary_path:
             description: binary(ipa or ipk) file path 
@@ -18,7 +20,7 @@ orbs:
             description: project id in apptest.ai 
             type: string
           waiting_for_test_results:
-            description: If you want build process waiting for apptest.ai test result, type 'ture' 
+            description: If you want build process waiting for apptest.ai test result, type ture 
             type: string
             default: 'true'
             
