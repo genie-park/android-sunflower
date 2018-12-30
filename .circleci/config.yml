@@ -22,10 +22,11 @@ orbs:
         steps:
           - run: 
              command: |
-               $binary_path = <<parameters.binary_path>>
-               $access_key = <<parameters.access_key>>
-               $project_id = <<parameters.project_id>>
-               $waiting_for_test_results = <<parameters.waiting_for_test_results>>
+               binary_path = <<parameters.binary_path>>
+               access_key = <<parameters.access_key>>
+               project_id = <<parameters.project_id>>
+               waiting_for_test_results = <<parameters.waiting_for_test_results>>
+
                serviceHost=https://api.apptest.ai
                apk_file_d='apk_file=@'\"${binary_path}\"
                data_d='data={"pid":'${project_id}',"test_set_name":"circleci_test"}'
@@ -84,7 +85,7 @@ jobs:
     steps:
       - checkout
       - run:
-         command: ./gradlew dependencies
+         command: ./gradlew assembledebug
       - apptest-ai/run-test:
          binary_path: app/build/outputs/apk/debug/app-debug.apk
          access_key: d0b20cd289994be0e423e2c42f4c09fe
