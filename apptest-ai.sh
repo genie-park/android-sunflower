@@ -48,6 +48,25 @@ function echo_done {
 # Main
 #=======================================
 
+if [ -z "$binary_path" ]; then
+	echo "binary path is needed"
+	exit 1
+fi
+
+if [ -z "$project_id" ]; then 
+	echo "project id is needed"
+	exit 1
+fi
+
+if [ -z "$access_key" ]; then
+	echo "apptest ai access key is needed"
+	exit 1
+fi
+
+if [ -z "$waiting_for_test_results" ]; then
+	waiting_for_test_results=true
+fi
+
 serviceHost=https://api.apptest.ai
 
 # store the whole response with the status at the and
