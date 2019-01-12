@@ -11,17 +11,13 @@ android:
   licenses:
     - 'android-sdk-license-.+'
     - 'google-gdk-license-.+'
-jobs:
-  include:
-    - before_install:
-      - sudo apt-get install -y jq
-      - sudo apt-get install -y curl
-      - chmod +x apptest-ai.sh 
-    - stage: build
-      script: ./gradlew assembledebug
-    - stage: test
-      env:
-        - binary_path=${HOME}/app/build/outputs/apk/debug/app-debug.apk
-        - access_key=d0b20cd289994be0e423e2c42f4c09fe
-        - project_id='793'
-      script: ./apptest-ai.sh
+script: ./gradlew assembledebug
+env:
+  - binary_path=${HOME}/app/build/outputs/apk/debug/app-debug.apk
+  - access_key=d0b20cd289994be0e423e2c42f4c09fe
+  - project_id='793'
+script: 
+  - sudo apt-get install -y jq
+  - sudo apt-get install -y curl
+  - chmod +x apptest-ai.sh 
+  - ./apptest-ai.sh
