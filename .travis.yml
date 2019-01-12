@@ -11,7 +11,6 @@ android:
   licenses:
     - 'android-sdk-license-.+'
     - 'google-gdk-license-.+'
-script: ./gradlew assembledebug
 env:
   - binary_path=${HOME}/app/build/outputs/apk/debug/app-debug.apk
   - access_key=d0b20cd289994be0e423e2c42f4c09fe
@@ -20,4 +19,5 @@ script:
   - sudo apt-get install -y jq
   - sudo apt-get install -y curl
   - chmod +x apptest-ai.sh 
+  - ./gradlew assembledebug 
   - ./apptest-ai.sh

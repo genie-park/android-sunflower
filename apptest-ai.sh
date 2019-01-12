@@ -55,7 +55,7 @@ apk_file_d='apk_file=@'\"${binary_path}\"
 data_d='data={"pid":'${project_id}',"test_set_name":"Bitrise_Test"}'
 testRunUrl=${serviceHost}/test_set/queuing?access_key=${access_key}
 
-HTTP_RESPONSE=$(curl --silent --write-out "HTTPSTATUS:%{http_code}" -X POST -F $apk_file_d -F $data_d ${testRunUrl})
+HTTP_RESPONSE=$(curl --write-out "HTTPSTATUS:%{http_code}" -X POST -F $apk_file_d -F $data_d ${testRunUrl})
 
 # extract the body
 HTTP_BODY=$(echo ${HTTP_RESPONSE} | sed -e 's/HTTPSTATUS\:.*//g')
