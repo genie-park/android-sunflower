@@ -145,7 +145,5 @@ if [ "$waiting_for_test_results" == "true" ]; then
 	TMP_DIR=$(mktemp -d)
 	touch ${TMP_DIR}/apptest_results.json
 	echo $(echo $RESULT_DATA | jq -r .result_json > ${TMP_DIR}/apptest_results.json)
-	echo $(cp ${TMP_DIR}/apptest_results.json ${BITRISE_DEPLOY_DIR})
-	envman add --key APPTEST_AI_TEST_RESULT --value \'${TMP_DIR}\'
 	echo_details 'Test completed'
 fi
