@@ -12,10 +12,9 @@ android:
     - 'android-sdk-license-.+'
     - 'google-gdk-license-.+'
 
-script: 
-  - sudo apt-get install -y jq
-  - sudo apt-get install -y curl
+install:
   - chmod +x apptest-ai.sh 
+script: 
   - ./gradlew :app:assembledebug 
   - export binary_path=./app/build/outputs/apk/debug/app-debug.apk
   - export access_key=d0b20cd289994be0e423e2c42f4c09fe
