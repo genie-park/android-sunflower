@@ -26,6 +26,6 @@ deploy:
   file:
     - "./app/build/outputs/apk/debug/app-debug.apk"
     - $APPTEST_AI_TEST_RESULT 
-  skip_cleanup:true
+  skip_cleanup: true
   on:
     repo: genie-park/android-sunflower
