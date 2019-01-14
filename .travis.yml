@@ -13,10 +13,11 @@ android:
     - 'google-gdk-license-.+'
 
 install:
-  - chmod +x apptest-ai.sh 
+  - git clone https://github.com/genie-park/travis-ci-addon-apptest-ai
+  - chmod +x ./travis-ci-addon-apptest-ai/phase.sh 
 script: 
   - ./gradlew :app:assembledebug 
   - export binary_path=./app/build/outputs/apk/debug/app-debug.apk
   - export access_key=d0b20cd289994be0e423e2c42f4c09fe
   - export project_id='793'
-  - ./apptest-ai.sh
+  - ./travis-ci-addon-apptest-ai/phase.sh
