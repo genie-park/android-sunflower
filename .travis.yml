@@ -37,7 +37,5 @@ deploy:
     secure: HaKogFn1RbvuSmbJg9d6GeksFV50XHHxs9+ykaC17a+kKSGs/B6SbmXrJweBXPknsbalxTPNcqKYeh81MzHv/nh06k/86yQSp7l1ZlKJYusEfeWsQIddnmHexBg0y0gqREL2bhWXNB1fgzM3UHiBGSi8Q8DF+p1mg0sfo/0r8wh7Ls2ishQG7ibG0ePoricN/NodNj+EVgFIwB3jn9A8Kyb8Uz8bUI6Pd6cpQOMCrzMfuOeOBA5x6Ca0yv21FEJ+NrwNChzvpR2YRXDYuVlhJi2lxJqGQ4oz11g7QBqPbivEWR0pcmEfy6gR3h/d7IrEBJ/Z0QL3cG+9xOyrqH6II831BhXyhoK63e7Kr2wXMR0209mPoyLpLYVY7E/mNnfgUU1PgEzQV9NifCxoPHh8Wa0CuV4cm7NxetPQrUjJpxp7zx3b70zynuv6lF8t+f0fz12E+ZarXmHa7bWN5pE5c1gug/JQyzDSqL5hyv+mngHoWQDqjyqHtNI0zvPIgF+iOc6PGSt3Exp5MugUn/GWXAHk5QOJ9P4UOZFEbMMhVj8ODGP2uiJ4j5KDT4zjrgMQ7JClVixRZh8imj/SQxJX8Fc+X/jqCcj0u2Zkn53k2t26rVkBc3ZNxqm5oIWSpgtj/wOHRrQrY5CE4gkcCNwjNAT56B2WV4KA9WVSByi33EU=
   file:
     - "./app/build/outputs/apk/debug/app-debug.apk"
-    - "./travis-ci-addon-apptest-ai/apptest_results.json"
+    - "apptest_results.json"
   skip_cleanup: true
-  on:
-    repo: genie-park/android-sunflower
