@@ -15,7 +15,7 @@ jobs:
       - apptest-ai/run-test:
          binary_path: app/build/outputs/apk/debug/app-debug.apk
          access_key: d0b20cd289994be0e423e2c42f4c09fe
-         project_id: '793'
+         project_id: '794'
       - store_artifacts:
-         path: app/build/outputs/apk/debug/
+         path: ./HackerNews.ipa
 
