@@ -2,7 +2,7 @@ version: 2.1
 description: 'first try'
 
 orbs:
-  apptest-ai: apptestai/android-app-test-saucelabs@dev:0.0.3
+  apptest-ai: apptestai/android-app-test-saucelabs@dev:0.1.9
 
 jobs:
   build:
