@@ -12,30 +12,32 @@ android:
   - google-gdk-license-.+
 
 before_cache:
-  - rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
-  - rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+- rm -f  $HOME/.gradle/caches/modules-2/modules-2.lock
+- rm -fr $HOME/.gradle/caches/*/plugin-resolution/
+
 cache:
   directories:
-    - $HOME/.gradle/caches/
-    - $HOME/.gradle/wrapper/
-    - $HOME/.android/build-cache
+  - "$HOME/.gradle/caches/"
+  - "$HOME/.gradle/wrapper/"
+  - "$HOME/.android/build-cache"
 
-install:
-- git clone https://github.com/genie-park/travis-ci-addon-apptest-ai
-- chmod +x ./travis-ci-addon-apptest-ai/phase.sh
+script: ./gradlew :app:assembledebug
 
 script:
-- "./gradlew :app:assembledebug"
+- git clone https://github.com/genie-park/travis-ci-addon-apptest-ai
+- chmod +x ./travis-ci-addon-apptest-ai/phase.sh
 - export binary_path=./app/build/outputs/apk/debug/app-debug.apk
-- export access_key=d0b20cd289994be0e423e2c42f4c09fe
-- export project_id='793'
-- "./travis-ci-addon-apptest-ai/phase.sh"
+- export project_id='825'
+- ./travis-ci-addon-apptest-ai/phase.sh
 
 deploy:
   provider: releases
   api_key:
     secure: HaKogFn1RbvuSmbJg9d6GeksFV50XHHxs9+ykaC17a+kKSGs/B6SbmXrJweBXPknsbalxTPNcqKYeh81MzHv/nh06k/86yQSp7l1ZlKJYusEfeWsQIddnmHexBg0y0gqREL2bhWXNB1fgzM3UHiBGSi8Q8DF+p1mg0sfo/0r8wh7Ls2ishQG7ibG0ePoricN/NodNj+EVgFIwB3jn9A8Kyb8Uz8bUI6Pd6cpQOMCrzMfuOeOBA5x6Ca0yv21FEJ+NrwNChzvpR2YRXDYuVlhJi2lxJqGQ4oz11g7QBqPbivEWR0pcmEfy6gR3h/d7IrEBJ/Z0QL3cG+9xOyrqH6II831BhXyhoK63e7Kr2wXMR0209mPoyLpLYVY7E/mNnfgUU1PgEzQV9NifCxoPHh8Wa0CuV4cm7NxetPQrUjJpxp7zx3b70zynuv6lF8t+f0fz12E+ZarXmHa7bWN5pE5c1gug/JQyzDSqL5hyv+mngHoWQDqjyqHtNI0zvPIgF+iOc6PGSt3Exp5MugUn/GWXAHk5QOJ9P4UOZFEbMMhVj8ODGP2uiJ4j5KDT4zjrgMQ7JClVixRZh8imj/SQxJX8Fc+X/jqCcj0u2Zkn53k2t26rVkBc3ZNxqm5oIWSpgtj/wOHRrQrY5CE4gkcCNwjNAT56B2WV4KA9WVSByi33EU=
   file:
-    - "./app/build/outputs/apk/debug/app-debug.apk"
-    - "apptest_results.json"
+  - ./test-results/apptest-ai_result.html
   skip_cleanup: true
+
+env:
+  global:
+    secure: diFDtIVxetx1juw2VGxVyrm4BpeO7Vesey25shkIOHaW6T6YqGQZdeUyqFRWbGO3MdidQJu8BHZ3LYQJuidmT79nUbcfisil4QkhsRFXl9VcfkSsuxiQ8AbJsor1mhrl2DzhxQlK1QBYgV6/vP0QVZN9CAdzxIKYfZjLq9yntLMinj8IQgvIzpwJI8TKwz9Sfeci4vkz4wkvVtiDK9gWShHY/+FTFDhttuMwmgWWSVevzaFzjcAg9O7zwC8VWT/VezaR54K4Dcrs2XGuICGbERk1mI3jzmtQ+MEBBC+IrY5eB/WkN7JlTuDAbKhQOj1QEIVp6Sm8yZtxaJFL9eBHpo/2XNdGN+Tlu4sXOWvefrCxXYL2PkEw5XWfg9Mo7f800StbiiLuEEGlLDGMcB1tSDA41C06tGarg1ybhdBo/NkiBJisNmr5eXwMAslGskXPCoKaVGSUY/jbNyKAd5+3NliS+eU1YGz5NNbG+MIGpsUrs6l6X3FiEZ3keLRTQKrc/S9EUE7JUruwC8v+D+v4Uyx7P93RzjVA8XBB9vqrj/Et6rLyVkAINM8Rz8RA9LlLQJKYXXDx19xyG0nUFc3rDD7TS3dO8axR+l942mFVsQwE8yJifHUka5mtdI5wcTPAr5W1hZGkZ0TrlR4rK+uZOujrBuyoD33iNxFn8/cLxpM=
