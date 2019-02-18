@@ -22,8 +22,9 @@ cache:
   - "$HOME/.android/build-cache"
 
 script:
+-set -e
 - ./gradlew :app:assembledebug
-- git clone https://github.com/genie-park/ci-addon
+- git clone https://github.com/apptestai/ci-addon
 - export binary_path=./app/build/outputs/apk/debug/app-debug.apk
 - export project_id='831'
 - bash ./ci-addon/step.sh
