@@ -24,8 +24,7 @@ steps:
 - bash: |
    git clone https://github.com/apptestai/ci_addon
    export binary_path=./app/build/outputs/apk/debug/app-debug.apk
-   export project_id='831'
-   export APPTEST_AI_ACCESS_KEY='hjpark@embian.com:d0b20cd289994be0e423e2c42f4c09fe'
+   export project_id='831'   
    bash ./ci_addon/step.sh
 - task: PublishPipelineArtifact@0
   inputs:
@@ -35,4 +34,4 @@ steps:
   inputs:
    testResultsFormat: JUnit
    testResultsFiles: '**/*.xml'
-   searchFolder: 'test-results/'
+   searchFolder: '$(System.DefaultWorkingDirectory)/test-results/'
