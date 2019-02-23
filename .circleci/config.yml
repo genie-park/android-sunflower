@@ -1,8 +1,8 @@
 version: 2.1
-description: 'first try'
+description: 'build androd-sunfower app by circleci'
 
 orbs:
-  apptest-ai: apptestai/android-app-test-saucelabs@dev:0.1.9
+  apptest-ai: apptestai/app-test@volatile
 
 jobs:
   build:
@@ -14,6 +14,7 @@ jobs:
          command: ./gradlew assembledebug
       - apptest-ai/run-test:
          binary_path: app/build/outputs/apk/debug/app-debug.apk
+         project_id: 
       - store_artifacts:
          path: test-results
       - store_test_results:
