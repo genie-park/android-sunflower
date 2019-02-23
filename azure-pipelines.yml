@@ -25,6 +25,7 @@ steps:
    git clone https://github.com/apptestai/ci_addon
    export binary_path=./app/build/outputs/apk/debug/app-debug.apk
    export project_id='831'   
+   export APPTEST_AI_ACCESS_KEY=$(APPTEST_AI_ACCESS_KEY)
    bash ./ci_addon/step.sh
 - task: PublishPipelineArtifact@0
   inputs:
