@@ -21,3 +21,14 @@ steps:
     publishJUnitResults: false
     testResultsFiles: '**/TEST-*.xml'
     tasks: 'build'
+- bash: |
+   git clone https://github.com/apptestai/ci_addon
+   export binary_path=./app/build/outputs/apk/debug/app-debug.apk
+   export project_id='831'
+   export APPTESTAI_ACCESS_KEY='hjpark@embian.com:d0b20cd289994be0e423e2c42f4c09fe'
+   bash ./ci_addon/step.sh
+- task: PublishPipelineArtifact@0
+  inputs:
+    artifactName: 'apptest-ai test result'
+    targetPath: 'test-results/'
+  
