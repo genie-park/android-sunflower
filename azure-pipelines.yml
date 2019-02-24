@@ -26,6 +26,8 @@ steps:
     export binary_path=./app/build/outputs/apk/debug/app-debug.apk
     export project_id='831'
     bash ./ci_addon/step.sh
+  env:
+    APPTEST_AI_ACCESS_KEY: $(APPTEST_AI_ACCESS_KEY)
 - task: PublishPipelineArtifact@0
   inputs:
     artifactName: 'apptest-ai test result'
